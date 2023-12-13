@@ -38,7 +38,7 @@ public class ChatGPTService {
 
         GPTSetting setting = new GPTSetting();
         setting.setApiUrl("https://api.openai-proxy.org/v1/chat/completions");
-        setting.setKey("sk-NJPRpBK7bgjbhy9Lk9yFAMtGDSa95RKGr3Vs123dYkWYiD9t");
+        setting.setKey("");
         setting.setModel(model);
         setting.setMax_tokens(1024);
         setting.setTemperature(0.9);
