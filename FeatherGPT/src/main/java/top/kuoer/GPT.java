@@ -57,16 +57,23 @@ public class GPT {
     public void handleStreamMsg(GPTSetting setting) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.request.streamRequest(setting), StandardCharsets.UTF_8));
+
             String line = "";
             StringBuilder GPTsay = new StringBuilder();
+
+
             while((line = bufferedReader.readLine()) != null) {
                 line = line.replace("data: ", "").trim();
                 if(!line.equals("[DONE]")) {
                     Data data = gson.fromJson(line, Data.class);
                     if(null != data) {
-                        GPTMessageHandleList.forEach(item -> {
+                        this.GPTMessageHandleList.forEach(item -> {
                             item.handleMessage(data);
                         });
+
+                        if(null != data.getError()) {
+                            break;
+                        }
 
                         // 记录GPT的回答，然后保存起来
                         for(Choices choices : data.getChoices()) {

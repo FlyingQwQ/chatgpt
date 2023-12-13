@@ -35,19 +35,24 @@ export default {
         });
       });
     },
-    onContentChange(index, content) {
-      this.dialogueList[index].content = content;
+    removeNewMessageItem() {  //移除刚创建的聊天气泡
+      this.dialogueList.pop();
     },
-    getMessageItems(id) {
+    getMessageItems(id) { //根据id获取聊天历史
       this.loading = true;
+      this.dialogueList = [];
       fetch.msgitems({ id }).then(res => {
         if(res.code == 1) {
           this.dialogueList = res.data;
         }
       }).finally(() =>{
         this.loading = false;
-        this.$emit('msgLoadComplete');  //聊天历史加载完成回调
+        this.$emit('msgLoadComplete');
       });
+    },
+    
+    onContentChange(index, content) {
+      this.dialogueList[index].content = content;
     },
   }
 }

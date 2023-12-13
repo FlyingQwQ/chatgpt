@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:gpt.db
+    driver-class-name: org.sqlite.JDBC
+mybatis:
+  type-aliases-package: top.kuoer.entity

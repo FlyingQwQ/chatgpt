@@ -22,8 +22,8 @@ public class ChatGPTController {
     }
 
     @RequestMapping(value="/connect", method={RequestMethod.GET}, produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
-    public SseEmitter connect(@RequestParam("id") String id) {
-        return this.chatGPTService.connect(id);
+    public SseEmitter connect(@RequestParam("id") String id, @RequestParam("model") String model) {
+        return this.chatGPTService.connect(id, model);
     }
 
     @RequestMapping(value="/close", method={RequestMethod.GET})

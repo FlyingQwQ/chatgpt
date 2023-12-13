@@ -8,13 +8,16 @@
 
       <el-row :gutter="20">
         <el-col :span="19" class="title">{{ item.title }}</el-col>
-        <el-col :span="5" class="icon"><i @click.stop="remove(item.id)" class="el-icon-close"></i></el-col>
+        <el-col :span="5" class="icon" v-show="currDialogueId == item.id"><i @click.stop="remove(item.id)" class="el-icon-close"></i></el-col>
       </el-row>
+
+      <el-tag effect="plain" type="info">{{ item.model }}</el-tag>
     </div>
   </div>
 </template>
 
 <script>
+import { fetch } from '@/config';
 export default {
   props: {
     
@@ -33,22 +36,30 @@ export default {
   methods: {
     createRecord(title, model) {  // 创建记录
       let randomStr = this.generateRandomString(5);
-      this.historyList.push({title, id: randomStr, model});
+      let config = {title, id: randomStr, model};
+      this.historyList.push(config);
       this.currDialogueId = randomStr;
 
       this.saveToLocal();
 
-      return randomStr;
+      return config;
     },
     choose(id) {
+      if(this.currDialogueId === id) {
+        return;
+      }
       this.currDialogueId = id;
-      this.$emit('choose', id);
+      this.$emit('choose', this.historyList.find(item => item.id == id));
     },
 
     remove(id) {  // 删除记录
-      this.historyList = this.historyList.filter(item => item.id != id);
-      this.choose(this.historyList.length > 0 ? this.historyList[0].id : '');
-      this.saveToLocal();
+      fetch.remove({ id }).then(res => {
+        if(res.code == 1) {
+          this.historyList = this.historyList.filter(item => item.id != id);
+          this.choose(this.historyList.length > 0 ? this.historyList[0].id : '');
+          this.saveToLocal();
+        }
+      });
     },
 
     saveToLocal() { // 将记录保存到本地缓存
@@ -108,10 +119,13 @@ export default {
   }
   .icon {
     text-align: center;
-    font-size: 1.1rem;
   }
   .icon:hover {
     color: #18afd7;
+  }
+
+  .el-tag {
+    margin-top: 10px;
   }
 
   .activity {

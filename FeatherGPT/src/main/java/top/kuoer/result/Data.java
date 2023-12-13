@@ -10,6 +10,7 @@ public class Data {
     private String model;
     private String system_fingerprint;
     private List<Choices> choices;
+    private Error error;
 
     public List<Choices> getChoices() {
         return choices;
@@ -59,6 +60,14 @@ public class Data {
         this.system_fingerprint = system_fingerprint;
     }
 
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
@@ -68,6 +77,7 @@ public class Data {
                 ", model='" + model + '\'' +
                 ", system_fingerprint='" + system_fingerprint + '\'' +
                 ", choices=" + choices +
+                ", error=" + error +
                 '}';
     }
 }

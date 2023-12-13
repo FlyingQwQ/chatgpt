@@ -1,6 +1,6 @@
 
 
-let host = 'http://localhost:8080'
+let host = 'http://10.10.6.101:8080'
 
 export {
   host

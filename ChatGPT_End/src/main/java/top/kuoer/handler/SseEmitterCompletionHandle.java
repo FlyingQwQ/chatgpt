@@ -15,7 +15,7 @@ public class SseEmitterCompletionHandle implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(id + " 断开连接");
+//        System.out.println(id + " 断开连接");
     }
 
 }
